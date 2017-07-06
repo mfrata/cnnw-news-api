@@ -67,16 +67,18 @@ def format_dict(raw_dict, keys_list):
 
 KEYS_TYPE = zip(API_DATA_KEYS, API_DATA_KEYS_TYPE)
 
-API_DOC = 'GET /api/v1/news - To receive all the news on the database\n'\
+API_DOC = 'GET /news - To receive all the news on the database\n'\
 '       Expected responses: 200\n\n'\
-'GET /api/v1/news?filter0=param&filterN=paramN - To receive all the news that pass on those filters\n'\
+'GET /news?filter0=param&filterN=paramN - To receive all the news that pass on those filters\n'\
 '       Allowed filters (name, type): {}'.format(KEYS_TYPE)+'\n'\
 '       Expected responses: 200, 404\n\n'\
-'POST /api/v1/news - with payload in json format with the previous filters\n'\
+'POST /news - with payload in json format with the previous filters\n'\
 '       Expected responses: 201, 400\n\n'\
-'OPTIONS /api/v1/news - To get the api options\n'\
+'OPTIONS /news - To get the api options\n'\
 '       Expected responses: 200\n\n'\
 'Example: Getting the news that has the category : "Corrupção"\n'\
-'       GET /api/v1/news?categories=Corrupção\n\n'\
+'       GET /news?categories=Corrupção\n\n'\
 'Example: Getting the news that has the category : "Corrupção" and are related to the person "João Silva"\n'\
-'       GET /api/v1/news?categories=Corrupção&people=João+Silva'
+'       GET /news?categories=Corrupção&people=João+Silva\n\n'\
+'GET /keys - To receive all keys of each news on the database\n'\
+'       Expected responses: 200\n\n'\

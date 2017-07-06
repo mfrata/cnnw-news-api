@@ -12,22 +12,24 @@ app.config['MONGO_URI'] = 'mongodb://mfrata:sudofrata@ds129459.mlab.com:29459/ne
 
 mongo = PyMongo(app)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return "OPTIONS /api/v1/news for more info"
+    resp = apiResponse(API_DOC)
+    resp.headers['Content-type'] = 'text/plain; charset=utf-8'
+    return resp
 
 @app.route('/keys', methods=['GET'])
 def api_keys():
     return apiResponse(jsonify({'keys':API_DATA_KEYS}))
 
-@app.route('/api/v1/news', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/news', methods=['GET', 'POST', 'OPTIONS'])
 def api_news():
     """
     News Api for neoway-one team Project
 
     For more info:
 
-    OPTIONS on /api/v1/news
+    OPTIONS on /news
 
     Parameters
     ----------
