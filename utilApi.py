@@ -26,8 +26,6 @@ API_DATA_KEYS_TYPE = (
     'string'
 )
 
-
-
 def jsonRaw(raw):
     """
     Takes the raw input and return in the json format
