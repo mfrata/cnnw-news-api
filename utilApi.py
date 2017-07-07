@@ -72,6 +72,8 @@ API_DOC = 'GET /news - To receive all the news on the database\n'\
 '       Expected responses: 200, 404\n\n'\
 'POST /news - with payload in json format with the previous filters\n'\
 '       Expected responses: 201, 400\n\n'\
+'PATCH /news?filter0=param - with payload in json format with the some of the previous filters\n'\
+'       Expected responses: 201, 204, 400\n\n'\
 'OPTIONS /news - To get the api options\n'\
 '       Expected responses: 200\n\n'\
 'Example: Getting the news that has the category : "Corrupção"\n'\
