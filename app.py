@@ -2,7 +2,7 @@
 
 from flask import Flask, Response, jsonify, request
 from flask import make_response as apiResponse
-from utilApi import jsonRaw, format_dict, API_DATA_KEYS, API_DOC
+from utilApi import serializer, API_DATA_KEYS, API_DOC
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -42,20 +42,18 @@ def api_news():
 
     """
     if request.method == 'GET':
-        #filtering keys on the url
-        filters_keys = [key for key in request.args.keys() if key in API_DATA_KEYS]
-        filter_dict = format_dict(request.args.to_dict(), filters_keys)
         #finding the news in the mongodb
-        all_documents = mongo.db.news.find(filter_dict)
+        all_documents = mongo.db.news.find(request.args.to_dict())
         if all_documents.count() > 0:
-            return apiResponse(jsonRaw(all_documents))
+            return apiResponse(serializer(all_documents))
         else:
             return apiResponse('',404)
 
     elif request.method == 'POST':
         #saving in the mongodb
         news_collection = mongo.db.news
-        newDocummentId = news_collection.insert(format_dict(request.json, API_DATA_KEYS))
+        #inserting
+        newDocummentId = news_collection.insert(request.json)
         #checking if resource was created
         if news_collection.find_one({'_id': newDocummentId }):
             return apiResponse(jsonify({'_id': str(newDocummentId) }), 201)
@@ -63,23 +61,19 @@ def api_news():
             return apiResponse('Could not create resource', 400)
 
     elif request.method == 'PATCH':
-        #filtering keys on the url
-        filters_keys = [key for key in request.args.keys() if key in API_DATA_KEYS]
-        filtered_args = format_dict(request.args.to_dict(), filters_keys)
-        if filtered_args == {}:
+        #checking if a filter was passed
+        if request.args.to_dict() == {}:
             return apiResponse('No filter specified.', 400)
-        #filtering keys on the payload
-        filters_keys =  set(request.json.keys()).intersection(API_DATA_KEYS)
-        filtered_values = format_dict(request.json, filters_keys)
-        if filtered_values == {}:
+        #checking if a update data was passed
+        if request.json == {}:
             return apiResponse('No update data specified', 400)
         #saving in the mongodb
         try:
-            mongo.db.news.update_one(filtered_args,{'$set':filtered_values},
+            mongo.db.news.update_one(request.args.to_dict(),{'$set':request.json},
                 upsert=False)
         except Exception as e:
             return apiResponse(e, 422)
-        return apiResponse('done', 204)
+        return apiResponse('done', 201)
 
     elif request.method == 'OPTIONS':
         return apiResponse(API_DOC)
