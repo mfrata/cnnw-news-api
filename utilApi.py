@@ -1,8 +1,10 @@
 # encoding: iso-8859-1
 
 from flask import jsonify
+from flask_pymongo import PyMongo
 
 API_DATA_KEYS = (
+    '_id',
     'title',
     'date',
     'domain',
@@ -11,10 +13,12 @@ API_DATA_KEYS = (
     'tags',
     'people',
     'companies',
-    'body'
+    'body',
+    'risk'
 )
 
 API_DATA_KEYS_TYPE = (
+    'ObjID',
     'string',
     'string',
     'string',
@@ -23,10 +27,11 @@ API_DATA_KEYS_TYPE = (
     'list of strings',
     'list of strings',
     'list of string',
+    'string',
     'string'
 )
 
-def jsonRaw(raw):
+def serializer(raw):
     """
     Takes the raw input and return in the json format
 
@@ -42,12 +47,14 @@ def jsonRaw(raw):
     """
     output = []
     if type(raw) is dict:
-        output = format_dict(raw, API_DATA_KEYS)
+        output = removeID(raw)
     else:
-        output = [format_dict(x, API_DATA_KEYS) for x in raw]
+        output = [removeID(x) for x in raw]
+    print output
     return jsonify(output)
 
-def format_dict(raw_dict, keys_list):
+
+def removeID(raw_dict):
     """
     Takes the raw dict and return a f formated one given a list of keys
 
@@ -61,7 +68,12 @@ def format_dict(raw_dict, keys_list):
     dict
         formated dict
     """
-    return {key: raw_dict[key] for key in keys_list}
+    print raw_dict
+    if '_id' in raw_dict:
+        del raw_dict['_id']
+    return raw_dict
+
+
 
 KEYS_TYPE = zip(API_DATA_KEYS, API_DATA_KEYS_TYPE)
 
