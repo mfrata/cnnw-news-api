@@ -4,7 +4,6 @@ from flask import jsonify
 from flask_pymongo import PyMongo
 
 API_DATA_KEYS = (
-    '_id',
     'title',
     'date',
     'domain',
@@ -18,7 +17,6 @@ API_DATA_KEYS = (
 )
 
 API_DATA_KEYS_TYPE = (
-    'ObjID',
     'string',
     'string',
     'string',
