@@ -10,8 +10,7 @@ API_DATA_KEYS = (
     'url',
     'categories',
     'tags',
-    'people',
-    'companies',
+    'entities',
     'body',
     'risk'
 )
@@ -24,7 +23,6 @@ API_DATA_KEYS_TYPE = (
     'list of strings',
     'list of strings',
     'list of strings',
-    'list of string',
     'string',
     'string'
 )
