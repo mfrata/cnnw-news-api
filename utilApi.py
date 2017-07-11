@@ -46,7 +46,6 @@ def serializer(raw):
         output = removeID(raw)
     else:
         output = [removeID(x) for x in raw]
-    print output
     return jsonify(output)
 
 
@@ -64,7 +63,6 @@ def removeID(raw_dict):
     dict
         formated dict
     """
-    print raw_dict
     if '_id' in raw_dict:
         del raw_dict['_id']
     return raw_dict
