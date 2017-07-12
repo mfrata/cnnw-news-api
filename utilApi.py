@@ -5,7 +5,8 @@ from flask_pymongo import PyMongo
 
 API_DATA_KEYS = (
     'title',
-    'date',
+    'published_date',
+    'scrapped_date',
     'domain',
     'url',
     'categories',
@@ -16,6 +17,7 @@ API_DATA_KEYS = (
 )
 
 API_DATA_KEYS_TYPE = (
+    'string',
     'string',
     'string',
     'string',
