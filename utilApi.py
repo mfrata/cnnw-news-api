@@ -1,5 +1,5 @@
 # encoding: iso-8859-1
-
+import re
 from flask import jsonify
 from flask_pymongo import PyMongo
 
@@ -53,21 +53,35 @@ def serializer(raw):
 
 def removeID(raw_dict):
     """
-    Takes the raw dict and return a f formated one given a list of keys
+    Takes the raw dict and return a without ones of its keys
 
     Parameters
     ----------
     raw_dict : dict
-    keys_list : list
 
     Returns
     -------
     dict
-        formated dict
+        raw_dict without the id key
     """
     if '_id' in raw_dict:
         del raw_dict['_id']
     return raw_dict
+
+def regexIt(raw_dict):
+    """
+    Takes the raw dict and return a formated in regular expresion
+
+    Parameters
+    ----------
+    raw_dict : dict
+
+    Returns
+    -------
+    dict
+        formated dict with values as regular expressions
+    """
+    return {key : re.compile(value,re.IGNORECASE) for key, value in raw_dict.iteritems()}
 
 
 

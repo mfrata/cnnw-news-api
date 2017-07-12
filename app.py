@@ -2,7 +2,7 @@
 
 from flask import Flask, Response, jsonify, request
 from flask import make_response as apiResponse
-from utilApi import serializer, API_DATA_KEYS, API_DOC
+from utilApi import serializer, regexIt, API_DATA_KEYS, API_DOC
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def api_news_get():
     Return all news based on the requests filters
     '''
     #finding the news in the mongodb
-    all_documents = mongo.db.news.find(request.args.to_dict())
+    all_documents = mongo.db.news.find(regexIt(request.args.to_dict()))
     if all_documents.count() > 0:
         return apiResponse(serializer(all_documents))
     else:
