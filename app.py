@@ -83,4 +83,4 @@ def api_news_options():
     return apiResponse(API_DOC)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
